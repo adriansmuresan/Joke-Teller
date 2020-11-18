@@ -22,12 +22,18 @@ const VoiceRSS={speech:function(e){this._validate(e),this._request(e)},_validate
 //  Get Jokes from Joke API (https://sv443.net/jokeapi/v2/)
 
 async function getJokes() {
+  let joke = '';
   const apiUrl = 'https://sv443.net/jokeapi/v2/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist';
 
   try {
     let response = await fetch(apiUrl);
     let data = await response.json();
-    console.log(data);
+    if (data.setup) {
+      joke = `${data.setup} ... ${data.delivery}`;
+    } else {
+      joke = data.joke;
+    }
+    console.log(joke);
   } catch (error) {
     // Catch errors
     console.log('whoops', error);
